@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskStatusController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,14 +21,6 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-Route::get('task_statuses', [TaskStatusController::class, 'index'])->name('task_statuses.index');
+Route::resource('task_statuses', TaskStatusController::class);
 
-Route::middleware('auth')->group(function () {
-    Route::resource('task_statuses', TaskStatusController::class)->only([
-        'create',
-        'store',
-        'edit',
-        'update',
-        'destroy'
-    ]);
-});
+Route::resource('tasks', TaskController::class);

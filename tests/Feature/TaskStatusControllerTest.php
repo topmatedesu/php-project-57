@@ -15,7 +15,7 @@ class TaskStatusControllerTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->taskStatus = TaskStatus::factory()->create();
+        $this->taskStatus = TaskStatus::factory()->create(['name' => fake()->word()]);
     }
 
     public function testIndex(): void
@@ -34,7 +34,7 @@ class TaskStatusControllerTest extends TestCase
     public function testStore(): void
     {
         $this->actingAs($this->user);
-        $body = TaskStatus::factory()->make()->only('name');
+        $body = TaskStatus::factory()->make(['name' => fake()->word()])->only('name');
         $response = $this->post(route('task_statuses.store', $body));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
@@ -51,7 +51,7 @@ class TaskStatusControllerTest extends TestCase
     public function testUpdate(): void
     {
         $this->actingAs($this->user);
-        $body = TaskStatus::factory()->make()->only('name');
+        $body = TaskStatus::factory()->make(['name' => fake()->word()])->only('name');
         $response = $this->patch(route('task_statuses.update', ['task_status' => $this->taskStatus]), $body);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
