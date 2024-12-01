@@ -10,13 +10,25 @@ use Illuminate\Foundation\Application;
 use App\Models\User;
 use App\Models\Task;
 use App\Models\TaskStatus;
+use App\Models\Label;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class TaskController extends Controller
 {
     public function index(Request $request): Application|View|Factory
     {
-        $tasks = Task::orderBy('id')->paginate();
+        $tasks = QueryBuilder::for(Task::class)
+                             ->allowedFilters([
+                                                  AllowedFilter::exact('status_id'),
+                                                  AllowedFilter::exact('created_by_id'),
+                                                  AllowedFilter::exact('assigned_to_id'),
+                                                  AllowedFilter::scope('label'),
+                                              ])
+                             ->with(['labels', 'status', 'creator', 'assignee'])
+                             ->paginate();
+
         $taskStatuses = TaskStatus::pluck('name', 'id');
         $users = User::pluck('name', 'id');
 
@@ -27,15 +39,20 @@ class TaskController extends Controller
     {
         $taskStatuses = TaskStatus::all();
         $users = User::all();
+        $labels = Label::all();
 
-        return view('tasks.create', compact('taskStatuses', 'users'));
+        return view('tasks.create', compact('taskStatuses', 'users', 'labels'));
     }
 
     public function store(Request $request): RedirectResponse
     {
         $validatedData = $this->getValidatedData($request);
         $validatedData['created_by_id'] = Auth::id();
-        Task::create($validatedData);
+        $task = Task::create($validatedData);
+
+        if ($request->has('labels')) {
+            $task->labels()->sync($request->labels);
+        }
 
         return redirect()->route('tasks.index')->with('success', 'Задача успешно создана');
     }
@@ -44,14 +61,19 @@ class TaskController extends Controller
     {
         $taskStatuses = TaskStatus::all();
         $users = User::all();
+        $labels = Label::all();
 
-        return view('tasks.edit', compact('task', 'taskStatuses', 'users'));
+        return view('tasks.edit', compact('task', 'taskStatuses', 'users', 'labels'));
     }
 
     public function update(Request $request, Task $task): RedirectResponse
     {
         $validatedData = $this->getValidatedData($request);
         $task->update($validatedData);
+
+        if ($request->has('labels')) {
+            $task->labels()->sync($request->labels);
+        }
 
         return redirect()->route('tasks.index')->with('success', 'Задача успешно изменена');
     }
@@ -65,7 +87,7 @@ class TaskController extends Controller
 
     public function show(string $id): Application|View|Factory
     {
-        $task = Task::findOrFail((int)$id);
+        $task = Task::with('labels')->findOrFail($id);
 
         return view('tasks.show', compact('task'));
     }
