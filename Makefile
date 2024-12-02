@@ -1,9 +1,6 @@
 start:
 	php artisan serve --host=0.0.0.0 --port=$(PORT)
 
-install:
-	composer install
-
 validate:
 	composer validate
 
@@ -20,6 +17,7 @@ test-coverage-text:
 	XDEBUG_MODE=coverage composer exec --verbose phpunit tests -- --coverage-text
 
 setup:
+	composer install
 	cp -n .env.example .env || true
 	php artisan key:gen --ansi
 	touch database/database.sqlite

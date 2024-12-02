@@ -9,12 +9,10 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-      - name: composer install
-        run: make install
-      - name: run linter
-        run: make lint
       - name: setup
         run: make setup
+      - name: run linter
+        run: make lint
       - name: run tests
         run: make test
       - name: run test & publish code coverage
