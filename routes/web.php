@@ -6,11 +6,9 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\LabelController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+require __DIR__ . '/auth.php';
 
-Route::get('/dashboard', function () {
+Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -20,10 +18,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+Route::get('task_statuses', [TaskStatusController::class, 'index'])->name('task_statuses.index');
+Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
+Route::get('labels', [LabelController::class, 'index'])->name('labels.index');
 
-Route::resource('task_statuses', TaskStatusController::class);
+Route::middleware('auth')->group(function () {
+    Route::resource('tasks', TaskController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('labels', LabelController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource(
+        'task_statuses',
+        TaskStatusController::class
+    )->only(['create', 'store', 'edit', 'update', 'destroy']);
+});
 
-Route::resource('tasks', TaskController::class);
-
-Route::resource('labels', LabelController::class);
+Route::get('tasks/{id}', [TaskController::class, 'show'])->name('tasks.show');
