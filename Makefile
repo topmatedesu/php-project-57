@@ -1,6 +1,9 @@
 start:
 	php artisan serve --host=0.0.0.0 --port=$(PORT)
 
+install:
+	composer install
+
 validate:
 	composer validate
 
