@@ -3,7 +3,7 @@
 @section('content')
     <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
         <div class="grid col-span-full">
-            <h1 class="mb-5">Статусы</h1>
+            <h1 class="mb-5">{{ __('Statuses') }}</h1>
 
             @if(session('success'))
                 <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
@@ -20,7 +20,7 @@
                 @auth
                     <div>
                         <a href="{{ route('task_statuses.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Создать статус
+                            {{ __('views.task-status.create') }}
                         </a>
                     </div>
                 @endauth
@@ -29,11 +29,11 @@
             <table class="mt-4">
                 <thead class="border-b-2 border-solid border-black text-left">
                 <tr>
-                    <th>ID</th>
-                    <th>Имя</th>
-                    <th>Дата создания</th>
+                    <th scope="col">@lang('models.task_status.id')</th>
+                    <th scope="col">@lang('models.task_status.name')</th>
+                    <th scope="col">@lang('models.task_status.created_at')</th>
                     @auth
-                        <th>Действия</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                     @endauth
                 </tr>
                 </thead>
@@ -45,14 +45,14 @@
                             <td>{{ $status->created_at->format('d.m.Y') }}</td>
                             @auth
                             <td>
-                                <a href="#" class="text-red-500 hover:text-red-700 ml-2" onclick="event.preventDefault(); if(confirm('Вы уверены, что хотите удалить этот статус?')) { document.getElementById('delete-form-{{ $status->id }}').submit(); }">Удалить</a>
+                                <a href="#" class="text-red-500 hover:text-red-700 ml-2" onclick="event.preventDefault(); if(confirm('Вы уверены, что хотите удалить этот статус?')) { document.getElementById('delete-form-{{ $status->id }}').submit(); }">{{ __('Delete') }}</a>
                                 <form id="delete-form-{{ $status->id }}" action="{{ route('task_statuses.destroy', $status->id) }}" method="POST" class="hidden">
                                     @csrf
                                     @method('DELETE')
                                 </form>
                                 <a class="text-blue-600 hover:text-blue-900"
                                    href="{{ route('task_statuses.edit', $status->id) }}">
-                                    Изменить
+                                    {{ __('Edit') }}
                                 </a>
                             </td>
                             @endauth

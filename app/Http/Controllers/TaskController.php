@@ -102,9 +102,10 @@ class TaskController extends Controller
                                                 'labels' => 'array',
                                                 'labels.*' => 'exists:labels,id',
                                             ], [
-                                                'name.required' => 'Это обязательное поле',
-                                                'name.max' => 'Имя задачи не должно превышать 255 символов.',
-                                                'description.max' => 'Описание не должно превышать 1000 символов.',
+                                                'name.required' => __('views.task.name_required'),
+                                                'name.max' => __('views.task.name_max'),
+                                                'description.max' => __('views.task.description_max'),
+                                                'status_id.required' => __('views.task.status_required'),
                                             ]);
     }
 }

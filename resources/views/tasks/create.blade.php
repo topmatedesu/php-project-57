@@ -3,7 +3,7 @@
 @section('content')
     <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
         <div class="grid col-span-full">
-            <h1 class="mb-5">Создать задачу</h1>
+            <h1 class="mb-5">{{ __('views.task.create') }}</h1>
 
             @if(session('success'))
                 <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
@@ -20,7 +20,7 @@
                 @csrf
                 <div class="flex flex-col">
                     <div>
-                        <label for="name">Имя</label>
+                        <label for="name">{{ __('models.task.name') }}</label>
                     </div>
                     <div class="mt-2">
                         <input class="rounded border-gray-300 w-1/3"
@@ -35,7 +35,7 @@
                     @enderror
 
                     <div class="mt-2">
-                        <label for="description">Описание</label>
+                        <label for="description">{{ __('models.task.description') }}</label>
                     </div>
                     <div>
                         <textarea class="rounded border-gray-300 w-1/3 h-32" name="description" id="description">{{ old('description') }}</textarea>
@@ -45,7 +45,7 @@
                     @enderror
 
                     <div class="mt-2">
-                        <label for="status_id">Статус</label>
+                        <label for="status_id">{{ __('models.task.status') }}</label>
                     </div>
                     <div>
                         <select class="rounded border-gray-300 w-1/3" name="status_id" id="status_id">
@@ -62,7 +62,7 @@
                     @enderror
 
                     <div class="mt-2">
-                        <label for="assigned_to_id">Исполнитель</label>
+                        <label for="assigned_to_id">{{ __('models.task.assigned_to') }}</label>
                     </div>
                     <div>
                         <select class="rounded border-gray-300 w-1/3" name="assigned_to_id" id="assigned_to_id">
@@ -79,7 +79,7 @@
                     @enderror
 
                     <div class="mt-2">
-                        <label for="status_id">Метки</label>
+                        <label for="status_id">{{ __('models.task.labels') }}</label>
                     </div>
                     <div>
                         <select class="rounded border-gray-300 w-1/3 h-32" name="labels[]" id="labels[]" multiple>
@@ -92,7 +92,7 @@
                     </div>
 
                     <div class="mt-2">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Создать</button>
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">{{ __('Save') }}</button>
                     </div>
                 </div>
             </form>

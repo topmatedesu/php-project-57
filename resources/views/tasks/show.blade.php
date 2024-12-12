@@ -16,15 +16,15 @@
             @endif
 
             <h2 class="mb-5">
-                Просмотр задачи: {{ $task->name }}
+                {{ __('views.task.show') }}: {{ $task->name }}
                 <a href="{{ route('tasks.edit', $task->id) }}">&#9881;</a>
             </h2>
-            <p><span class="font-black">Имя: </span>{{ $task->name }}</p>
-            <p><span class="font-black">Статус: </span>{{ $task->status->name }}</p>
-            <p><span class="font-black">Описание: </span>{{ $task->description ?? '' }}</p>
+            <p><span class="font-black">{{ __('models.task.name') }}: </span>{{ $task->name }}</p>
+            <p><span class="font-black">{{ __('models.task.status') }}: </span>{{ $task->status->name }}</p>
+            <p><span class="font-black">{{ __('models.task.description') }}: </span>{{ $task->description ?? '' }}</p>
 
                 @if(!$task->labels->isEmpty())
-                    <p><span class="font-black">Метки:</span></p>
+                    <p><span class="font-black">{{ __('models.task.labels') }}:</span></p>
                     <div>
                         @foreach ($task->labels as $label)
                             <div class="text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-blue-200 text-blue-700 rounded-full">

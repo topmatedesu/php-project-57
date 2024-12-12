@@ -82,7 +82,7 @@ return [
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'ru'),
 
-    'faker_locale' => env('APP_FAKER_LOCALE', 'ru_RUS'),
+    'faker_locale' => env('APP_FAKER_LOCALE', 'ru_RU'),
 
     /*
     |--------------------------------------------------------------------------

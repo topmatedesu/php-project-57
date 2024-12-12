@@ -66,10 +66,10 @@ class TaskStatusController extends Controller
         $validated = $request->validate([
                                             'name' => 'required|min:1|max:255|unique:task_statuses',
                                         ], [
-                                            'name.required' => 'Это обязательное поле',
-                                            'name.min' => 'Имя статуса должно содержать хотя бы один символ.',
-                                            'name.max' => 'Имя статуса не должно превышать 255 символов.',
-                                            'name.unique' => 'Статус с таким именем уже существует.',
+                                            'name.required' => __('views.task-status.name_required'),
+                                            'name.min' => __('views.task-status.name_min'),
+                                            'name.max' => __('views.task-status.name_max'),
+                                            'name.unique' => __('views.task-status.name_unique'),
                                         ]);
         $taskStatus->fill($validated);
         $taskStatus->save();

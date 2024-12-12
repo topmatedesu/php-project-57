@@ -29,11 +29,11 @@ class LabelController extends Controller
                                             'name' => 'required|string|max:255|unique:labels',
                                             'description' => 'nullable|string|max:1000',
                                         ], [
-                                            'name.required' => 'Это обязательное поле',
-                                            'name.min' => 'Имя метки должно содержать хотя бы один символ.',
-                                            'name.max' => 'Имя метки не должно превышать 255 символов.',
-                                            'name.unique' => 'Метка с таким именем уже существует.',
-                                            'description.max' => 'Описание не должно превышать 1000 символов.',
+                                            'name.required' => __('views.label.name_required'),
+                                            'name.min' => __('views.label.name_min'),
+                                            'name.max' => __('views.label.name_max'),
+                                            'name.unique' => __('views.label.name_unique'),
+                                            'description.max' => __('views.label.description_max'),
                                         ]);
 
         Label::create($validated);
@@ -52,11 +52,11 @@ class LabelController extends Controller
                                             'name' => 'required|string|max:255|unique:labels,name,' . $label->id,
                                             'description' => 'nullable|string|max:1000',
                                         ], [
-                                            'name.required' => 'Это обязательное поле',
-                                            'name.min' => 'Имя метки должно содержать хотя бы один символ.',
-                                            'name.max' => 'Имя метки не должно превышать 255 символов.',
-                                            'name.unique' => 'Метка с таким именем уже существует.',
-                                            'description.max' => 'Описание не должно превышать 1000 символов.',
+                                            'name.required' => __('views.label.name_required'),
+                                            'name.min' => __('views.label.name_min'),
+                                            'name.max' => __('views.label.name_max'),
+                                            'name.unique' => __('views.label.name_unique'),
+                                            'description.max' => __('views.label.description_max'),
                                         ]);
 
         $label->update($validated);
