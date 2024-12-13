@@ -29,7 +29,9 @@ class ProfileController extends Controller
         $user = $request->user();
 
         if ($user === null) {
-            return Redirect::route('login')->with('error', __('Please login to update your profile'));
+            flash()->error(__('Please login to update your profile'));
+
+            return Redirect::route('login');
         }
 
         $user->fill($request->validated());

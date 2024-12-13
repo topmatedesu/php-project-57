@@ -29,8 +29,9 @@ class TaskStatusController extends Controller
     {
         $taskStatus = new TaskStatus();
         $this->saveTaskStatus($taskStatus, $request);
+        flash()->success(__('views.task-status.created'));
 
-        return redirect()->route('task_statuses.index')->with('success', 'Статус успешно создан');
+        return redirect()->route('task_statuses.index');
     }
 
     public function edit(TaskStatus $taskStatus): Application|View|Factory
@@ -41,24 +42,28 @@ class TaskStatusController extends Controller
     public function update(Request $request, TaskStatus $taskStatus): RedirectResponse
     {
         $this->saveTaskStatus($taskStatus, $request);
+        flash()->success(__('views.task-status.updated'));
 
-        return redirect()->route('task_statuses.index')->with('success', 'Статус успешно изменён');
+        return redirect()->route('task_statuses.index');
     }
 
     public function destroy(TaskStatus $taskStatus): RedirectResponse
     {
         try {
-            if ($taskStatus->tasks()->count() > 0) {
-                return redirect()->route('task_statuses.index')
-                                 ->with('error', 'Невозможно удалить статус, связанный с задачей');
+            if ($taskStatus->tasks()->exists()) {
+                flash()->error(__('views.task-status.unable_to_delete'));
+
+                return redirect()->route('task_statuses.index');
             }
             $taskStatus->delete();
+            flash()->success(__('views.task-status.deleted'));
         } catch (\Exception $e) {
-            return redirect()->route('task_statuses.index')
-                             ->with('error', 'Не удалось удалить статус');
+            flash()->error(__('views.task-status.cannot_delete'));
+
+            return redirect()->route('task_statuses.index');
         }
 
-        return redirect()->route('task_statuses.index')->with('success', 'Статус успешно удалён');
+        return redirect()->route('task_statuses.index');
     }
 
     private function saveTaskStatus(TaskStatus $taskStatus, Request $request): void

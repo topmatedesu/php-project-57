@@ -37,8 +37,9 @@ class LabelController extends Controller
                                         ]);
 
         Label::create($validated);
+        flash()->success(__('views.label.created'));
 
-        return redirect()->route('labels.index')->with('success', 'Метка успешно создана');
+        return redirect()->route('labels.index');
     }
 
     public function edit(Label $label): Application|View|Factory
@@ -60,19 +61,22 @@ class LabelController extends Controller
                                         ]);
 
         $label->update($validated);
+        flash()->success(__('views.label.updated'));
 
-        return redirect()->route('labels.index')->with('success', 'Метка успешно изменена');
+        return redirect()->route('labels.index');
     }
 
     public function destroy(Label $label): RedirectResponse
     {
-        if ($label->tasks()->count() > 0) {
-            return redirect()->route('labels.index')
-                             ->with('error', 'Не удалось удалить метку');
+        if ($label->tasks()->exists()) {
+            flash()->error(__('views.label.cannot_delete'));
+
+            return redirect()->route('labels.index');
         }
 
         $label->delete();
+        flash()->success(__('views.label.deleted'));
 
-        return redirect()->route('labels.index')->with('success', 'Метка успешно удалена');
+        return redirect()->route('labels.index');
     }
 }

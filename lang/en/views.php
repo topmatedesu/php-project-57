@@ -31,6 +31,7 @@ return [
         'updated' => 'Status updated successfully',
         'deleted' => 'Status removed successfully',
         'cannot_delete' => 'Cannot delete Status',
+        'unable_to_delete' => 'Unable to delete status associated with task',
 
         'create' => 'Create Status',
         'edit' => 'Edit Status',

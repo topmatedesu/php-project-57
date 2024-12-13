@@ -54,7 +54,9 @@ class TaskController extends Controller
             $task->labels()->sync($request->labels);
         }
 
-        return redirect()->route('tasks.index')->with('success', 'Задача успешно создана');
+        flash()->success(__('views.task.created'));
+
+        return redirect()->route('tasks.index');
     }
 
     public function edit(Task $task): Application|View|Factory
@@ -75,14 +77,17 @@ class TaskController extends Controller
             $task->labels()->sync($request->labels);
         }
 
-        return redirect()->route('tasks.index')->with('success', 'Задача успешно изменена');
+        flash()->success(__('views.task.updated'));
+
+        return redirect()->route('tasks.index');
     }
 
     public function destroy(Task $task): RedirectResponse
     {
         $task->delete();
+        flash()->success(__('views.task.deleted'));
 
-        return redirect()->route('tasks.index')->with('success', 'Задача успешно удалена');
+        return redirect()->route('tasks.index');
     }
 
     public function show(string $id): Application|View|Factory

@@ -5,17 +5,6 @@
         <div class="grid col-span-full">
             <h1 class="mb-5">{{ __('views.task.create') }}</h1>
 
-            @if(session('success'))
-                <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
-                    {{ session('success') }}
-                </div>
-            @endif
-            @if(session('error'))
-                <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-                    {{ session('error') }}
-                </div>
-            @endif
-
             <form class="w-50" method="POST" action="{{ route('tasks.store') }}">
                 @csrf
                 <div class="flex flex-col">
