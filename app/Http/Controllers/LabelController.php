@@ -20,7 +20,9 @@ class LabelController extends Controller
 
     public function create(): Factory|View|Application
     {
-        return view('labels.create');
+        $label = new Label();
+
+        return view('labels.create', compact('label'));
     }
 
     public function store(Request $request): RedirectResponse

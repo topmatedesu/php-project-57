@@ -32,20 +32,18 @@
                             <td>{{ $status->id }}</td>
                             <td>{{ $status->name }}</td>
                             <td>{{ $status->created_at->format('d.m.Y') }}</td>
-                            @auth
                             <td>
-                                <a href="#" class="text-red-500 hover:text-red-700 ml-2" onclick="event.preventDefault(); if(confirm('Вы уверены, что хотите удалить этот статус?')) { document.getElementById('delete-form-{{ $status->id }}').submit(); }">{{ __('Delete') }}</a>
-                                <form id="delete-form-{{ $status->id }}" action="{{ route('task_statuses.destroy', $status->id) }}" method="POST" class="hidden">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                <a class="text-blue-600 hover:text-blue-900"
-                                   href="{{ route('task_statuses.edit', $status->id) }}">
-                                    {{ __('Edit') }}
-                                </a>
+                                @can('delete', $status)
+                                    <a class="text-red-600 hover:text-red-900" href="{{route('task_statuses.destroy', $status->id)}}" data-confirm="{{ __('Are you sure?') }}" data-method="delete">
+                                        {{ __('Delete') }}
+                                    </a>
+                                @endcan
+                                @can('update', $status)
+                                    <a class="text-blue-600 hover:text-blue-900" href="{{route('task_statuses.edit', $status->id)}}">
+                                        {{ __('Edit') }}
+                                    </a>
+                                @endcan
                             </td>
-                            @endauth
-
                         </tr>
                     @endforeach
                 </tbody>

@@ -37,11 +37,12 @@ class TaskController extends Controller
 
     public function create(): Application|View|Factory
     {
-        $taskStatuses = TaskStatus::all();
-        $users = User::all();
-        $labels = Label::all();
+        $task = new Task();
+        $taskStatuses = TaskStatus::select('name', 'id')->pluck('name', 'id');
+        $users = User::select('name', 'id')->pluck('name', 'id');
+        $labels = Label::select('name', 'id')->pluck('name', 'id');
 
-        return view('tasks.create', compact('taskStatuses', 'users', 'labels'));
+        return view('tasks.create', compact('task', 'taskStatuses', 'users', 'labels'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -62,10 +63,11 @@ class TaskController extends Controller
     public function edit(Task $task): Application|View|Factory
     {
         $taskStatuses = TaskStatus::all();
-        $users = User::all();
-        $labels = Label::all();
+        $users = User::select('name', 'id')->pluck('name', 'id');
+        $labels = Label::select('name', 'id')->pluck('name', 'id');
+        $taskLabels = $task->labels;
 
-        return view('tasks.edit', compact('task', 'taskStatuses', 'users', 'labels'));
+        return view('tasks.edit', compact('task', 'taskStatuses', 'users', 'labels', 'taskLabels'));
     }
 
     public function update(Request $request, Task $task): RedirectResponse

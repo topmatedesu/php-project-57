@@ -5,26 +5,25 @@
         <div class="grid col-span-full">
             <h1 class="mb-5">{{ __('views.task-status.edit') }}</h1>
 
-            <form class="w-50"  action="{{ route('task_statuses.update', $taskStatus->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-
-                <div class="flex flex-col">
-                    <div>
-                        <label for="name">{{ __('models.task_status.name') }}</label>
-                    </div>
-                    <div class="mt-2">
-                        <input class="rounded border-gray-300 w-1/3" type="text" name="name" id="name" value="{{ $taskStatus->name }}">
-                    </div>
-                    @error('name')
-                    <div class="text-rose-600">{{ $message }}</div>
-                    @enderror
+            <div>
+                {{ html()->modelForm($taskStatus, 'PATCH', route('task_statuses.update', $taskStatus))->open() }}
+                <div>
+                    {{ html()->label(__('models.task_status.name'))->for('name') }}
                 </div>
+                <div class="mt-2">
+                    {{ html()->input('text', 'name', $taskStatus->name)->value(old('name'))->class('rounded border border-gray-300 w-1/3 p-2') }}
+                </div>
+                @error('name')
+                <div class="text-rose-600">
+                    {{ $message }}
+                </div>
+                @enderror
 
                 <div class="mt-2">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">{{ __('Update') }}</button>
+                    {{ html()->submit(__('Update'))->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded') }}
                 </div>
-            </form>
+                {{ html()->closeModelForm() }}
+            </div>
         </div>
     </div>
 @endsection

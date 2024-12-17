@@ -5,22 +5,25 @@
         <div class="grid col-span-full">
             <h1 class="mb-5">{{ __('views.task-status.create') }}</h1>
 
-            <form action="{{ route('task_statuses.store') }}" class="w-50"  method="POST">
-                @csrf
-                <div class="mb-4">
-                    <label for="name">{{ __('models.task_status.name') }}</label>
-                    <div class="mt-2">
-                        <input type="text" name="name" id="name" class="rounded border-gray-300 w-1/3" value="{{ old('name') }}">
-                    </div>
-                    @error('name')
-                    <div class="text-rose-600">{{ $message }}</div>
-                    @enderror
+            <div>
+                {{ html()->modelForm($taskStatus, 'POST', route('task_statuses.store'))->open() }}
+                <div>
+                    {{ html()->label(__('models.task_status.name'))->for('name') }}
                 </div>
+                <div class="mt-2">
+                    {{ html()->input('text', 'name', old('name'))->value(old('name'))->class('rounded border border-gray-300 w-1/3 p-2') }}
+                </div>
+                @error('name')
+                <div class="text-rose-600">
+                    {{ $message }}
+                </div>
+                @enderror
 
                 <div class="mt-2">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">{{ __('Save') }}</button>
+                    {{ html()->submit(__('Save'))->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded') }}
                 </div>
-            </form>
+                {{ html()->closeModelForm() }}
+            </div>
         </div>
     </div>
 @endsection

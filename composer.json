@@ -10,6 +10,7 @@
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "rollbar/rollbar-laravel": "^8.0",
+        "spatie/laravel-html": "^3.11",
         "spatie/laravel-query-builder": "^6.2"
     },
     "require-dev": {

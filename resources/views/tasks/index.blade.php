@@ -7,35 +7,23 @@
 
             <div class="w-full flex items-center">
                 <div>
-                    <form method="GET" action="{{ route('tasks.index') }}">
-                        <div class="flex">
-                            <select class="rounded border-gray-300"
-                                    name="filter[status_id]"
-                                    id="filter[status_id]">
-                                <option value selected="">{{ __('models.task.status') }}</option>
-                                @foreach($taskStatuses as $id => $name)
-                                    <option value="{{ $id }}" {{ request('filter.status_id') == $id ? 'selected' : '' }}>{{ $name }}</option>
-                                @endforeach
-                            </select>
-                            <select class="rounded border-gray-300"
-                                    name="filter[created_by_id]"
-                                    id="filter[created_by_id]">
-                                <option value selected="selected">{{ __('models.task.created_by') }}</option>
-                                @foreach($users as $id => $name)
-                                    <option value="{{ $id }}" {{ request('filter.created_by_id') == $id ? 'selected' : '' }}>{{ $name }}</option>
-                                @endforeach
-                            </select>
-                            <select class="rounded border-gray-300" name="filter[assigned_to_id]" id="filter[assigned_to_id]">
-                                <option value selected="">{{ __('models.task.assigned_to') }}</option>
-                                @foreach($users as $id => $name)
-                                    <option value="{{ $id }}" {{ request('filter.assigned_to_id') == $id ? 'selected' : '' }}>{{ $name }}</option>
-                                @endforeach
-                            </select>
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2" type="submit">{{ __('Apply') }}</button>
+                    {{ html()->modelForm($tasks, 'GET', route('tasks.index'))->open() }}
+                    <div class="flex">
+                        <div>
+                            {{ html()->select('filter[status_id]', $taskStatuses, $filter['status_id'] ?? null)->placeholder(__('models.task.status'))->class('rounded border-gray-300') }}
                         </div>
-                    </form>
+                        <div>
+                            {{ html()->select('filter[created_by_id]', $users, $filter['created_by_id'] ?? null)->placeholder(__('models.task.created_by'))->class('ml-2 rounded border-gray-300') }}
+                        </div>
+                        <div>
+                            {{ html()->select('filter[assigned_to_id]', $users, $filter['assigned_to_id'] ?? null)->placeholder(__('models.task.assigned_to'))->class('ml-2 rounded border-gray-300') }}
+                        </div>
+                        <div>
+                            {{ html()->submit(__('Apply'))->class('bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2') }}
+                        </div>    
+                    </div>
+                    {{ html()->closeModelForm() }}
                 </div>
-
 
                 @auth
                     <div class="ml-auto">
@@ -75,22 +63,21 @@
                 <td>{{ $task->created_at->format('d.m.Y') }}</td>
                 @auth
                     <td>
-                        <a href="{{ route('tasks.edit', $task->id) }}" class="text-blue-600 hover:text-blue-900">
-                            {{ __('Edit') }}
-                        </a>
-                        @if($task->created_by_id == auth()->id())
-                            <a href="#" class="text-red-500 hover:text-red-700 ml-2" onclick="event.preventDefault(); if(confirm('Вы уверены, что хотите удалить эту задачу?')) { document.getElementById('delete-task-form-{{ $task->id }}').submit(); }">{{ __('Delete') }}</a>
-                            <form id="delete-task-form-{{ $task->id }}" action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="hidden">
-                                @csrf
-                                @method('DELETE')
-                            </form>
-                        @endif
+                        @can('delete', $task)
+                            <a class="text-red-600 hover:text-red-900" href="{{route('tasks.destroy', $task->id)}}" data-confirm="{{ __('Are you sure?') }}" data-method="delete">
+                                {{ __('Delete') }}
+                            </a>
+                        @endcan
+                        @can('update', $task)
+                            <a class="text-blue-600 hover:text-blue-900" href="{{route('tasks.edit', $task->id)}}">
+                                {{ __('Edit') }}
+                            </a>
+                        @endcan
                     </td>
                 @endauth
             </tr>
             @endforeach
         </table>
-
 
         <div class="mt-4">
             {{ $tasks->links() }}

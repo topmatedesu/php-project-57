@@ -31,19 +31,18 @@
                             <td>{{ $label->name }}</td>
                             <td>{{ $label->description ?? __('No Description') }}</td>
                             <td>{{ $label->created_at->format('d.m.Y') }}</td>
-                            @auth
-                                <td>
-                                    <a href="#" class="text-red-600 hover:text-red-900" onclick="event.preventDefault(); if(confirm('Вы уверены, что хотите удалить эту метку?')) { document.getElementById('delete-form-{{ $label->id }}').submit(); }">{{ __('Delete') }}</a>
-                                    <form id="delete-form-{{ $label->id }}" action="{{ route('labels.destroy', $label->id) }}" method="POST" class="hidden">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                    <a class="text-blue-600 hover:text-blue-900"
-                                       href="{{ route('labels.edit', $label->id) }}">
-                                       {{ __('Edit') }}
+                            <td>
+                                @can('delete', $label)
+                                    <a class="text-red-600 hover:text-red-900" href="{{route('labels.destroy', $label->id)}}" data-confirm="{{ __('Are you sure?') }}" data-method="delete">
+                                        {{ __('Delete') }}
                                     </a>
-                                </td>
-                            @endauth
+                                @endcan
+                                @can('update', $label)
+                                    <a class="text-blue-600 hover:text-blue-900" href="{{route('labels.edit', $label->id)}}">
+                                        {{ __('Edit') }}
+                                    </a>
+                                @endcan
+                            </td>
                         </tr>
                     @endforeach
                 </table>
