@@ -48,11 +48,12 @@ class TaskController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validatedData = $this->getValidatedData($request);
-        $validatedData['created_by_id'] = Auth::id();
-        $task = Task::create($validatedData);
+        /** @var User $user */
+        $user = Auth::user();
+        $task = $user->createdTasks()->create($validatedData);
 
         if ($request->has('labels')) {
-            $task->labels()->sync($request->labels);
+            $task->labels()->sync($validatedData['labels'] ?? []);
         }
 
         flash()->success(__('views.task.created'));
@@ -76,7 +77,7 @@ class TaskController extends Controller
         $task->update($validatedData);
 
         if ($request->has('labels')) {
-            $task->labels()->sync($request->labels);
+            $task->labels()->sync($validatedData['labels'] ?? []);
         }
 
         flash()->success(__('views.task.updated'));
@@ -92,7 +93,7 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    public function show(string $id): Application|View|Factory
+    public function show(Task $task, string $id): Application|View|Factory
     {
         $task = Task::with('labels')->findOrFail($id);
 
