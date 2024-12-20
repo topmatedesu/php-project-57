@@ -17,6 +17,11 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     public function index(Request $request): Application|View|Factory
     {
         $tasks = QueryBuilder::for(Task::class)

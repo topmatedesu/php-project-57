@@ -11,6 +11,11 @@ use App\Models\Label;
 
 class LabelController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     public function index()
     {
         $labels = Label::paginate(15);

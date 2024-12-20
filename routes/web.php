@@ -22,17 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('task_statuses', [TaskStatusController::class, 'index'])->name('task_statuses.index');
-Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
-Route::get('labels', [LabelController::class, 'index'])->name('labels.index');
-
-Route::middleware('auth')->group(function () {
-    Route::resource('tasks', TaskController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
-    Route::resource('labels', LabelController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
-    Route::resource(
-        'task_statuses',
-        TaskStatusController::class
-    )->only(['create', 'store', 'edit', 'update', 'destroy']);
-});
-
-Route::get('tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
+Route::resources([
+    'task_statuses' => TaskStatusController::class,
+    'tasks' => TaskController::class,
+    'labels' => LabelController::class,
+]);
