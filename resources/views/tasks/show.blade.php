@@ -6,7 +6,7 @@
 
             <h2 class="mb-5">
                 {{ __('views.task.show') }}: {{ $task->name }}
-                <a href="{{ route('tasks.edit', $task->id) }}">&#9881;</a>
+                <a href="{{ route('tasks.edit', $task) }}">&#9881;</a>
             </h2>
             <p><span class="font-black">{{ __('models.task.name') }}: </span>{{ $task->name }}</p>
             <p><span class="font-black">{{ __('models.task.status') }}: </span>{{ $task->status->name }}</p>

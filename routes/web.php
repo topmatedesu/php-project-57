@@ -35,4 +35,4 @@ Route::middleware('auth')->group(function () {
     )->only(['create', 'store', 'edit', 'update', 'destroy']);
 });
 
-Route::get('tasks/{id}', [TaskController::class, 'show'])->name('tasks.show');
+Route::get('tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');

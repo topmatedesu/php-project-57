@@ -93,9 +93,9 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    public function show(Task $task, string $id): Application|View|Factory
+    public function show(Task $task): Application|View|Factory
     {
-        $task = Task::with('labels')->findOrFail($id);
+        $task->load('labels');
 
         return view('tasks.show', compact('task'));
     }
