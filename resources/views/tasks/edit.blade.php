@@ -11,7 +11,7 @@
                     {{ html()->label(__('models.task.name'))->for('name') }}
                 </div>
                 <div class="mt-2">
-                    {{ html()->input('text', 'name', $task->name)->value(old('name'))->class('rounded border border-gray-300 w-1/3 p-2') }}
+                    {{ html()->input('text', 'name')->class('rounded border border-gray-300 w-1/3 p-2') }}
                 </div>
                 @error('name')
                 <div class="text-rose-600">
@@ -23,7 +23,7 @@
                     {{ html()->label(__('models.task.description'))->for('description') }}
                 </div>
                 <div class="mt-2">
-                    {{ html()->textarea('description', $task->description)->value(old('description'))->rows(10)->cols(50)->class('rounded border border-gray-300 w-1/3 h-32 p-2') }}
+                    {{ html()->textarea('description')->rows(10)->cols(50)->class('rounded border border-gray-300 w-1/3 h-32 p-2') }}
                 </div>
                 @error('description')
                 <div class="text-rose-600">

@@ -36,8 +36,9 @@ class TaskController extends Controller
 
         $taskStatuses = TaskStatus::pluck('name', 'id');
         $users = User::pluck('name', 'id');
+        $filter = $request->query('filter');
 
-        return view('tasks.index', compact('tasks', 'taskStatuses', 'users'));
+        return view('tasks.index', compact('tasks', 'taskStatuses', 'users', 'filter'));
     }
 
     public function create(): Application|View|Factory

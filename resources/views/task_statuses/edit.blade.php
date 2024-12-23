@@ -11,7 +11,7 @@
                     {{ html()->label(__('models.task_status.name'))->for('name') }}
                 </div>
                 <div class="mt-2">
-                    {{ html()->input('text', 'name', $taskStatus->name)->value(old('name'))->class('rounded border border-gray-300 w-1/3 p-2') }}
+                    {{ html()->input('text', 'name')->class('rounded border border-gray-300 w-1/3 p-2') }}
                 </div>
                 @error('name')
                 <div class="text-rose-600">
